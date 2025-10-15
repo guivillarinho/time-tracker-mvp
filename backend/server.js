@@ -25,5 +25,13 @@ app.get('/', (req, res) => {
 // const authRoutes = require('./routes/authRoutes');
 // app.use('/api/auth', authRoutes);
 
+// Rotas:
+app.get('/', (req, res) => {
+    res.send('API de Registro de Atividades funcionando!');
+});
+
+// ** ADICIONE AQUI AS ROTAS DE AUTENTICAÇÃO **
+const authRoutes = require('./routes/authRoutes');
+app.use('/api/auth', authRoutes);
 
 app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`));
