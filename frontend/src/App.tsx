@@ -1,35 +1,33 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from 'react';
+import RegisterForm from './components/RegisterForm';
+import LoginForm from './components/LoginForm';
+// Certifique-se de que o arquivo de estilo global App.css ou index.css carregue o Tailwind CSS
 
-function App() {
-  const [count, setCount] = useState(0)
-
+const App: React.FC = () => {
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div
+      className="min-h-screen bg-gray-100 flex flex-col items-center justify-center p-4 font-sans"
+      style={{ fontFamily: '"Inter", sans-serif' }}
+    >
+      <header className="mb-10 text-center">
+        <h1 className="text-5xl font-extrabold text-indigo-700">Time Tracker MVP</h1>
+        <p className="mt-2 text-xl text-gray-500">Comece a mapear o tempo do seu time</p>
+      </header>
+
+      <main className="flex flex-col lg:flex-row gap-8 w-full max-w-5xl">
+        <section className="flex-1">
+          <RegisterForm />
+        </section>
+        <section className="flex-1">
+          <LoginForm />
+        </section>
+      </main>
+
+      <footer className="mt-10 text-sm text-gray-400">
+        MVP v0.1 - Semana 1: Setup e Autenticação
+      </footer>
+    </div>
+  );
 }
 
-export default App
+export default App;
