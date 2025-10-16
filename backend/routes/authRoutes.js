@@ -1,14 +1,14 @@
 // backend/routes/authRoutes.js
-const express = require('express');
-const router = express.Router();
-const authController = require('../controllers/authController');
+import { Router } from 'express';
+const router = Router();
+import { register, login } from '../controllers/authController.js';
 
 // Rota POST /api/auth/register
 // Desc: Registra um novo usuário
-router.post('/register', authController.register);
+router.post('/register', register);
 
 // Rota POST /api/auth/login
 // Desc: Autentica o usuário e retorna o token JWT
-router.post('/login', authController.login);
+router.post('/login', login);
 
-module.exports = router;
+export default router;

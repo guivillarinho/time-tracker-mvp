@@ -25,8 +25,12 @@ interface IErrorResponse {
     msg: string;
 }
 
-const RegisterForm: React.FC = () => {
-    // Tipagem do estado com a interface IFormData
+// Interface para as propriedades do componente (adicionando onAuthSuccess)
+interface RegisterFormProps {
+    onAuthSuccess: () => void;
+}
+
+const RegisterForm: React.FC<RegisterFormProps> = ({ onAuthSuccess }) => {
     const [formData, setFormData] = useState<IFormData>({
         name: '',
         email: '',
@@ -36,31 +40,27 @@ const RegisterForm: React.FC = () => {
 
     const { name, email, password } = formData;
 
-    // Tipagem do evento de mudança
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    // Tipagem do evento de submissão
     const onSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setMessage('Processando...');
 
         try {
-            // Tipagem da resposta de sucesso
             const response = await axios.post<IAuthResponse>(
                 `${API_URL}/register`,
                 { name, email, password }
             );
 
-            // Se o registro for bem-sucedido, o token estará em response.data
             localStorage.setItem('token', response.data.token);
-            setMessage('✅ Registro e login bem-sucedidos! Token armazenado.');
+            setMessage('✅ Registro e login bem-sucedidos!');
 
             console.log('Dados do Usuário:', response.data.user);
+            onAuthSuccess(); // Chama a função para notificar o App
 
         } catch (err) {
-            // Tratamento e tipagem do erro
             const error = err as AxiosError<IErrorResponse>;
 
             const errorMsg = error.response?.data?.msg
@@ -75,7 +75,7 @@ const RegisterForm: React.FC = () => {
     return (
         <div className="p-6 bg-white shadow-xl rounded-xl w-full max-w-sm">
             <h2 className="text-2xl font-bold mb-4 text-gray-800">Registro</h2>
-            <form onSubmit={onSubmit} className="flex flex-col gap-4 text-black">
+            <form onSubmit={onSubmit} className="flex flex-col gap-4">
                 <input
                     type="text"
                     placeholder="Nome"

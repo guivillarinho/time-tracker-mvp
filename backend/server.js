@@ -32,11 +32,11 @@ app.get('/', (req, res) => {
 
 // ** ADICIONE AQUI AS ROTAS DE AUTENTICAÇÃO **
 // Rotas de Autenticação
-import authRoutes from './routes/authRoutes';
+import authRoutes from './routes/authRoutes.js';
 app.use('/api/auth', authRoutes);
 
 // Rotas de Atividades (AGORA PROTEGIDAS)
-import activityRoutes from './routes/activityRoutes';
+import activityRoutes from './routes/activityRoutes.js';
 app.use('/api/activities', activityRoutes); // Use o middleware 'auth' dentro do router
 
 app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`));

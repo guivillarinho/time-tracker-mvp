@@ -5,7 +5,6 @@ const API_URL = 'http://localhost:5000/api/auth';
 
 // ------------------------------------
 // Interfaces (Tipos de Dados)
-// Reutilizamos a interface de resposta IAuthResponse do RegisterForm
 // ------------------------------------
 interface ILoginData {
     email: string;
@@ -25,8 +24,13 @@ interface IErrorResponse {
     msg: string;
 }
 
-const LoginForm: React.FC = () => {
-    // Tipagem do estado de login
+// Interface para as propriedades do componente (adicionando onAuthSuccess)
+interface LoginFormProps {
+    onAuthSuccess: () => void;
+}
+
+
+const LoginForm: React.FC<LoginFormProps> = ({ onAuthSuccess }) => {
     const [formData, setFormData] = useState<ILoginData>({
         email: '',
         password: '',
@@ -35,36 +39,32 @@ const LoginForm: React.FC = () => {
 
     const { email, password } = formData;
 
-    // Tipagem do evento de mudança
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    // Tipagem do evento de submissão
     const onSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setMessage('Processando...');
 
         try {
-            // Tipagem da resposta de sucesso
             const response = await axios.post<IAuthResponse>(
                 `${API_URL}/login`,
                 { email, password }
             );
 
-            // Se o login for bem-sucedido, armazene o token
             localStorage.setItem('token', response.data.token);
-            setMessage('✅ Login bem-sucedido! Token armazenado.');
+            setMessage('✅ Login bem-sucedido!');
 
             console.log('Dados do Usuário:', response.data.user);
+            onAuthSuccess(); // Chama a função para notificar o App
 
         } catch (err) {
-            // Tratamento e tipagem do erro
             const error = err as AxiosError<IErrorResponse>;
 
             const errorMsg = error.response?.data?.msg
                 ? `Erro: ${error.response.data.msg}`
-                : '❌ Erro desconhecido ao logar. Tente novamente.';
+                : '❌ Erro desconhecido ao logar. Verifique as credenciais.';
 
             setMessage(errorMsg);
             console.error(err);
@@ -74,7 +74,7 @@ const LoginForm: React.FC = () => {
     return (
         <div className="p-6 bg-white shadow-xl rounded-xl w-full max-w-sm">
             <h2 className="text-2xl font-bold mb-4 text-gray-800">Acessar</h2>
-            <form onSubmit={onSubmit} className="flex flex-col gap-4 text-black">
+            <form onSubmit={onSubmit} className="flex flex-col gap-4">
                 <input
                     type="email"
                     placeholder="Email"
