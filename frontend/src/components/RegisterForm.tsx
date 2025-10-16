@@ -75,7 +75,7 @@ const RegisterForm: React.FC = () => {
     return (
         <div className="p-6 bg-white shadow-xl rounded-xl w-full max-w-sm">
             <h2 className="text-2xl font-bold mb-4 text-gray-800">Registro</h2>
-            <form onSubmit={onSubmit} className="flex flex-col gap-4">
+            <form onSubmit={onSubmit} className="flex flex-col gap-4 text-black">
                 <input
                     type="text"
                     placeholder="Nome"
