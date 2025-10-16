@@ -1,18 +1,18 @@
 // backend/server.js
 require('dotenv').config();
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
+import express, { json } from 'express';
+import { connect } from 'mongoose';
+import cors from 'cors';
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middlewares
-app.use(express.json()); // Permite ler JSON no corpo da requisição
+app.use(json()); // Permite ler JSON no corpo da requisição
 app.use(cors());         // Permite o frontend (em outra porta) se conectar
 
 // 1. Conexão com o Banco de Dados (Passo 4)
-mongoose.connect(process.env.MONGO_URI)
+connect(process.env.MONGO_URI)
     .then(() => console.log('MongoDB conectado com sucesso!'))
     .catch(err => console.error('Erro de conexão com MongoDB:', err));
 
@@ -31,7 +31,12 @@ app.get('/', (req, res) => {
 });
 
 // ** ADICIONE AQUI AS ROTAS DE AUTENTICAÇÃO **
-const authRoutes = require('./routes/authRoutes');
+// Rotas de Autenticação
+import authRoutes from './routes/authRoutes';
 app.use('/api/auth', authRoutes);
+
+// Rotas de Atividades (AGORA PROTEGIDAS)
+import activityRoutes from './routes/activityRoutes';
+app.use('/api/activities', activityRoutes); // Use o middleware 'auth' dentro do router
 
 app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`));
