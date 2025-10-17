@@ -1,12 +1,12 @@
-const Activity = require('../models/Activity');
-const ActivityType = require('../models/ActivityType');
+import Activity from '../models/Activity.js';
+import ActivityType from '../models/ActivityType.js';
 
 // ------------------------------------
 // Rota POST /api/activities
 // Desc: Cria uma nova entrada de atividade
 // Acesso: Privado (Requer JWT)
 // ------------------------------------
-exports.createActivity = async (req, res) => {
+export const createActivity = async (req, res) => {
     const { title, description, startTime, endTime, activityTypeName } = req.body;
 
     try {

@@ -1,7 +1,8 @@
-const jwt = require('jsonwebtoken');
+import jwt from 'jsonwebtoken';
+const { verify } = jwt;
 
 // Middleware para verificar o token JWT em requisições
-module.exports = function (req, res, next) {
+export default function (req, res, next) {
     // Obter o token do header da requisição
     const token = req.header('x-auth-token');
 
@@ -13,7 +14,7 @@ module.exports = function (req, res, next) {
     // Verificar o token
     try {
         // Decodifica o token usando a chave secreta do .env
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const decoded = verify(token, process.env.JWT_SECRET);
 
         // Adiciona o usuário decodificado ao objeto de requisição (req.user)
         req.user = decoded.user;

@@ -1,15 +1,15 @@
-const mongoose = require('mongoose');
+import { Schema, model } from 'mongoose';
 
-const ActivitySchema = new mongoose.Schema({
+const ActivitySchema = new Schema({
     // Referência ao usuário que criou a atividade (Obrigatório)
     user: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: 'User',
         required: true,
     },
     // Referência ao tipo de atividade (Obrigatório para filtros/gráficos)
     activityType: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: 'ActivityType',
         required: true,
     },
@@ -43,4 +43,4 @@ const ActivitySchema = new mongoose.Schema({
     },
 });
 
-module.exports = mongoose.model('Activity', ActivitySchema);
+export default model('Activity', ActivitySchema);
