@@ -74,7 +74,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onAuthSuccess }) => {
     return (
         <div className="p-6 bg-white shadow-xl rounded-xl w-full max-w-sm">
             <h2 className="text-2xl font-bold mb-4 text-gray-800">Acessar</h2>
-            <form onSubmit={onSubmit} className="flex flex-col gap-4">
+            <form onSubmit={onSubmit} className="flex flex-col gap-4 text-black">
                 <input
                     type="email"
                     placeholder="Email"
